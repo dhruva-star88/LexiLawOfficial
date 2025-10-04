@@ -1,2 +1,2 @@
-# LexiLawOfficial
+# LexiLaw
 Legal Document Analyzer 
