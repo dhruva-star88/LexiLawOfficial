@@ -44,8 +44,8 @@ const WorkflowPath = ({
                 <div className={`flex-shrink-0 w-10 h-10 rounded-full ${colors.light} ${colors.icon} flex items-center justify-center font-bold text-xl`}>
                   {index + 1}
                 </div>
-                {index < steps.length - 1 && <div className="hidden md:block h-12 w-px my-2 border-l-2 border-dashed border-gray-300"></div>}
-                {index < steps.length - 1 && <div className="md:hidden w-12 h-px mx-2 border-t-2 border-dashed border-gray-300"></div>}
+                {index < steps.length  && <div className="hidden md:block h-12 w-px my-2 border-l-2 border-dashed border-gray-300"></div>}
+                {index < steps.length  && <div className="md:hidden w-12 h-px mx-2 border-t-2 border-dashed border-gray-300"></div>}
               </div>
               <div className="ml-4 md:ml-0 md:text-center md:mt-2 flex-1 pb-6 md:pb-0">
                 <h4 className={`font-semibold ${colors.text} mb-1`}>{step.title}</h4>
