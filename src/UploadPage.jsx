@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import { Breadcrumb } from "./components/Breadcrumb";
 import { UploadArea } from "./components/UploadArea";
@@ -19,6 +20,8 @@ export default function UploadPage() {
     },
   ]);
 
+  const navigate = useNavigate(); // 👈 navigation hook
+
   const handleFileUpload = (acceptedFiles) => {
     const newFiles = acceptedFiles.map((file) => ({
       id: Math.random().toString(36).substring(7),
@@ -31,6 +34,11 @@ export default function UploadPage() {
 
   const handleDelete = (id) => {
     setRecentDocuments((prev) => prev.filter((doc) => doc.id !== id));
+  };
+
+  // 🚀 Navigates to the analysis page
+  const handleAnalyze = () => {
+    navigate("/analyze", { state: { documents: recentDocuments } });
   };
 
   return (
@@ -50,16 +58,35 @@ export default function UploadPage() {
             We support PDF, DOCX, PNG, and JPEG files up to 20MB.
           </p>
         </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* LEFT SIDE */}
           <div className="lg:col-span-2">
             <UploadArea onFileUpload={handleFileUpload} />
             <Tips />
           </div>
+
+          {/* RIGHT SIDE */}
           <div>
             <RecentDocuments
               documents={recentDocuments}
               onDelete={handleDelete}
             />
+
+            {/* ANALYZE BUTTON */}
+            <div className="mt-6 text-center">
+              <button
+                onClick={handleAnalyze}
+                disabled={recentDocuments.length === 0}
+                className={`px-6 py-3 rounded-lg font-semibold shadow-md transition-all duration-200 ${
+                  recentDocuments.length === 0
+                    ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+                    : "bg-blue-600 text-white hover:bg-blue-700"
+                }`}
+              >
+                Analyze Documents
+              </button>
+            </div>
           </div>
         </div>
       </main>
