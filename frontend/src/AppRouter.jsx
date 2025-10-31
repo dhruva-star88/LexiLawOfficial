@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { App } from "./App";
-import UploadPage from "./UploadPage";
-import BotPage from './BotPage';
-import AnalyzePage from "./AnalyzePage";
+import UploadPage from "./Pages/UploadPage";
+import BotPage from "./Pages/BotPage";
+import AnalyzePage from "./Pages/AnalyzePage";
 export function AppRouter() {
   return (
     <BrowserRouter>

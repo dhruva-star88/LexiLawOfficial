@@ -1,0 +1,136 @@
+@keyframes fadeIn {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                }
+
+                @keyframes fadeInUp {
+                    from {
+                        opacity: 0;
+                        transform: translateY(20px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+
+                @keyframes slideInUp {
+                    from {
+                        opacity: 0;
+                        transform: translateY(30px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+
+                @keyframes slideInRight {
+                    from {
+                        opacity: 0;
+                        transform: translateX(20px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateX(0);
+                    }
+                }
+
+                @keyframes messageSlideIn {
+                    from {
+                        opacity: 0;
+                        transform: translateY(10px) scale(0.98);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0) scale(1);
+                    }
+                }
+
+                @keyframes scaleIn {
+                    from {
+                        opacity: 0;
+                        transform: scale(0.9);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: scale(1);
+                    }
+                }
+
+                @keyframes floatSlow {
+                    0%, 100% { transform: translateY(0px); }
+                    50% { transform: translateY(-10px); }
+                }
+
+                .animate-fadeIn {
+                    animation: fadeIn 0.3s ease-out;
+                }
+
+                .animate-fadeInUp {
+                    animation: fadeInUp 0.6s ease-out;
+                    animation-fill-mode: both;
+                }
+
+                .animate-slideInUp {
+                    animation: slideInUp 0.5s ease-out;
+                }
+
+                .animate-slideInRight {
+                    animation: slideInRight 0.4s ease-out;
+                }
+
+                .animate-messageSlideIn {
+                    animation: messageSlideIn 0.4s ease-out;
+                    animation-fill-mode: both;
+                }
+
+                .animate-scaleIn {
+                    animation: scaleIn 0.3s ease-out;
+                }
+
+                .animate-floatSlow {
+                    animation: floatSlow 3s ease-in-out infinite;
+                }
+
+                .custom-scrollbar {
+                    scrollbar-width: thin;
+                    scrollbar-color: rgb(59, 130, 246) rgb(243, 244, 246);
+                }
+
+                .custom-scrollbar::-webkit-scrollbar {
+                    width: 10px;
+                }
+
+                .custom-scrollbar::-webkit-scrollbar-track {
+                    background: rgb(243, 244, 246);
+                    border-radius: 10px;
+                    margin: 8px 0;
+                }
+
+                .custom-scrollbar::-webkit-scrollbar-thumb {
+                    background: linear-gradient(to bottom, rgb(59, 130, 246), rgb(37, 99, 235));
+                    border-radius: 10px;
+                    border: 2px solid rgb(243, 244, 246);
+                }
+
+                .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+                    background: linear-gradient(to bottom, rgb(37, 99, 235), rgb(29, 78, 216));
+                }
+
+                textarea::-webkit-scrollbar {
+                    width: 6px;
+                }
+
+                textarea::-webkit-scrollbar-track {
+                    background: transparent;
+                }
+
+                textarea::-webkit-scrollbar-thumb {
+                    background: rgb(209, 213, 219);
+                    border-radius: 3px;
+                }
+
+                textarea::-webkit-scrollbar-thumb:hover {
+                    background: rgb(156, 163, 175);
+                }
