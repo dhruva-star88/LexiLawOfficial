@@ -12,7 +12,16 @@ export function parseBotResponse(text) {
   };
 
   // Allow HTML like <strong>Text</strong> or <br> to pass through untouched
-  const sanitize = (str) => applyMarkdownBold(str);
+  // Updated the sanitize function
+const sanitize = (str) => {
+  // First apply bold markdown
+  let formatted = applyMarkdownBold(str);
+  
+  // Add proper spacing around en-dashes between numbers and make numbers and 'hours' bold
+  formatted = formatted.replace(/(\d+)–(\d+)\s*(hours?)/gi, '<strong>$1</strong> – <strong>$2</strong> <strong>$3</strong>');
+  
+  return formatted;
+};
 
   const pushCurrentTable = () => {
     if (currentTable.length > 0) {
@@ -79,12 +88,28 @@ export function parseBotResponse(text) {
       return;
     }
 
+        // HORIZONTAL RULE / SPACING
+    if (/^-{3,}$/.test(trimmed)) {
+      pushCurrentList();
+      pushCurrentTable();
+      elements.push({
+        type: "spacing",
+        content: "",
+        className: "my-8" // Adding vertical margin for spacing elements
+      });
+      return;
+    }
+    
+
     // DEFAULT PARAGRAPH
     elements.push({
       type: "paragraph",
       content: sanitize(trimmed),
     });
   });
+
+
+  
 
   // flush any remaining blocks
   pushCurrentList();
