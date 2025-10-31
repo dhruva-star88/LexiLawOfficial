@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import { Breadcrumb } from "./components/Breadcrumb";
-import { UploadArea } from "./components/UploadArea";
-import { RecentDocuments } from "./components/RecentDocuments";
-import { Tips } from "./components/Tips";
+import Navbar from "../components/Navbar";
+import { UploadArea } from "../components/UploadArea";
+import { RecentDocuments } from "../components/RecentDocuments";
+import { Tips } from "../components/Tips";
 
 export default function UploadPage() {
   const [recentDocuments, setRecentDocuments] = useState([
