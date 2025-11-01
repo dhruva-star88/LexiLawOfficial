@@ -8,7 +8,7 @@ const ActionCard = ({
   features,
   buttonText,
   link,
-  onClick, // 👈 add this optional prop
+  onClick, 
 }) => {
   const navigate = useNavigate();
 

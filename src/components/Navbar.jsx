@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-const Navbar = ({ onLawyerBookingClick }) => {
+const Navbar = () => {
   return (
     <nav className="bg-white shadow-sm sticky top-0 z-10">
       <div className="container mx-auto px-4 py-3">
@@ -53,16 +53,12 @@ const Navbar = ({ onLawyerBookingClick }) => {
             >
               Chat
             </Link>
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                onLawyerBookingClick();
-              }}
+            <Link
+              to="/book"
               className="text-gray-600 hover:text-blue-500 border-b-2 border-transparent hover:border-blue-500 pb-1"
             >
               Lawyer Booking
-            </a>
+            </Link>
           </div>
         </div>
       </div>

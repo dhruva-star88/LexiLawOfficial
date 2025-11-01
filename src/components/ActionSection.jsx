@@ -2,7 +2,7 @@ import React from "react";
 import ActionCard from "./ActionCard";
 import { UploadIcon, MessageCircleIcon, UsersIcon } from "lucide-react";
 
-const ActionSection = ({ onFindLawyerClick }) => {
+const ActionSection = () => {
   return (
     <section className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
@@ -44,7 +44,7 @@ const ActionSection = ({ onFindLawyerClick }) => {
               "Book Consultation",
             ]}
             buttonText="Find Lawyers"
-            onClick={onFindLawyerClick}
+            link="/book"
           />
         </div>
       </div>

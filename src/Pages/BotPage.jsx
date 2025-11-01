@@ -10,7 +10,7 @@ import {
   AlertTriangle,
 } from "lucide-react";
 import React, { useState } from "react";
-import Navbar from "./components/Navbar";
+import Navbar from "../components/Navbar";
 
 export default function BotPage() {
   const [contextOpen, setContextOpen] = useState(true);
@@ -56,7 +56,6 @@ export default function BotPage() {
 
       <div className="flex-1 flex flex-col p-5 max-w-6xl mx-auto w-full">
         {/* Context Selector */}
-        
 
         {/* Main Chat Area */}
         <div className="flex-1 flex flex-col justify-center items-center min-h-[400px]">

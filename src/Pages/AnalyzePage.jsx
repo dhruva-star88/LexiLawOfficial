@@ -1,9 +1,9 @@
-import React from 'react'
-import Navbar from './components/Navbar'
-import DocumentSummary from './components/DocumentSummary'
-import RiskAnalysis from './components/RiskAnalysis'
-import ClauseBreakdown from './components/ClauseBreakdown'
-import ChatBot from './components/ChatBot'
+import React from "react";
+import Navbar from "../components/Navbar";
+import DocumentSummary from "../components/DocumentSummary";
+import RiskAnalysis from "../components/RiskAnalysis";
+import ClauseBreakdown from "../components/ClauseBreakdown";
+import ChatBot from "../components/ChatBot";
 export default function AnalyzePage() {
   return (
     <div className="w-full min-h-screen bg-gray-50">
@@ -21,10 +21,10 @@ export default function AnalyzePage() {
               <ClauseBreakdown />
             </div>
           </div>
-          
+
           <ChatBot />
         </div>
       </main>
     </div>
-  )
+  );
 }
