@@ -4,6 +4,7 @@ import { App } from "./App";
 import UploadPage from "./Pages/UploadPage";
 import BotPage from "./Pages/BotPage";
 import AnalyzePage from "./Pages/AnalyzePage";
+import BookLawyerSection from "./Pages/BookLawyerSection";
 export function AppRouter() {
   return (
     <BrowserRouter>
@@ -12,6 +13,7 @@ export function AppRouter() {
         <Route path="/upload" element={<UploadPage />} />
         <Route path="/bot" element={<BotPage />} />
         <Route path="/analyze" element={<AnalyzePage />} />
+        <Route path="/book" element={<BookLawyerSection />} />
       </Routes>
     </BrowserRouter>
   );

@@ -53,16 +53,12 @@ const Navbar = ({ onLawyerBookingClick }) => {
             >
               Chat
             </Link>
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                onLawyerBookingClick();
-              }}
+            <Link
+              to="/book"
               className="text-gray-600 hover:text-blue-500 border-b-2 border-transparent hover:border-blue-500 pb-1"
             >
               Lawyer Booking
-            </a>
+      </Link>
           </div>
         </div>
       </div>

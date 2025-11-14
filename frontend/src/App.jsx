@@ -33,9 +33,9 @@ export function App() {
 
         <WorkflowSection />
 
-        <div ref={bookLawyerRef}>
+        {/* <div ref={bookLawyerRef}>
           <BookLawyerSection />
-        </div>
+        </div> */}
       </main>
 
       <Footer />
