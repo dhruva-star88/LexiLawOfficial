@@ -44,7 +44,7 @@ const ActionSection = ({ onFindLawyerClick }) => {
               "Book Consultation",
             ]}
             buttonText="Find Lawyers"
-            onClick={onFindLawyerClick}
+            link="/book"
           />
         </div>
       </div>
