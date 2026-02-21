@@ -35,6 +35,7 @@ env/
 venv/
 ENV/
 myenv/
+venv/
 
 # IDE specific files
 .idea/
@@ -53,3 +54,17 @@ nosetests.xml
 coverage.xml
 *.cover
 .hypothesis/
+
+# Django translation files
+*.pot
+
+# Node modules (if any in backend)
+node_modules/
+
+# Package lock
+package-lock.json
+yarn.lock
+
+
+
+firebase_service_account.json

@@ -7,4 +7,13 @@ class UploadedDocumentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UploadedDocument
-        fields = ['id', 'file', 'uploaded_at']
+        fields = [
+            "id",
+            "file",
+            "uploaded_at",
+            "status",
+        ]
+        read_only_fields = [
+            "uploaded_at",
+            "status",
+        ]
