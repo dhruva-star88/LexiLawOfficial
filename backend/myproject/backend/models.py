@@ -1,10 +1,12 @@
 from django.db import models
+from django.conf import settings
 import uuid
 
 def upload_to(instance, filename):
     ext = filename.split('.')[-1]
     new_filename = f"{uuid.uuid4()}.{ext}"
     return f"documents/{new_filename}"
+
 
 class UploadedDocument(models.Model):
 
@@ -15,13 +17,21 @@ class UploadedDocument(models.Model):
         ("failed", "Failed"),
     ]
 
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="uploaded_documents"
+    )
+
     file = models.FileField(upload_to=upload_to)
     extracted_text = models.TextField(null=True, blank=True)
+
     status = models.CharField(
         max_length=20,
         choices=STATUS_CHOICES,
         default="uploaded"
     )
+
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

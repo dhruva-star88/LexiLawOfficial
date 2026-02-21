@@ -4,7 +4,22 @@ from groq import Groq
 
 load_dotenv()
 api_key = os.getenv('GROQ_API_KEY')
-client = Groq(api_key=api_key)
+
+# Initialize client lazily to avoid errors at import time
+client = None
+
+def get_client():
+    """Lazy initialization of Groq client."""
+    global client
+    if client is None:
+        api_key = os.getenv('GROQ_API_KEY')
+        if not api_key or api_key == 'your_groq_api_key_here':
+            raise ValueError(
+                "GROQ_API_KEY is not set. Please set your Groq API key in the .env file. "
+                "Get your API key from https://console.groq.com/"
+            )
+        client = Groq(api_key=api_key)
+    return client
 
 def get_groq_response(prompt: str, context: str = ""):
     """
@@ -17,6 +32,9 @@ def get_groq_response(prompt: str, context: str = ""):
     Returns:
         str: AI-generated legal response
     """
+    
+    # Get the client (lazy initialization)
+    client = get_client()
     
     # Build user message with context if provided
     user_message = prompt
