@@ -34,7 +34,7 @@ const Navbar = ({ onLawyerBookingClick }) => {
               Chat
             </a> */}
             <Link
-              to="/"
+              to="/dashboard"
               className="text-gray-600 hover:text-blue-500 border-b-2 border-transparent hover:border-blue-500 pb-1"
             >
               Home

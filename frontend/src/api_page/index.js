@@ -1,15 +1,20 @@
 import axiosInstance from "./axiosInstance";
 
 // Upload document
+import axios from "axios";
+
 export const uploadDocument = async (file) => {
+  const token = localStorage.getItem("token");
+
   const formData = new FormData();
   formData.append("file", file);
 
-  const response = await axiosInstance.post(
-    "/upload-document/",
+  const response = await axios.post(  
+    "http://127.0.0.1:8000/api/upload-document/",
     formData,
     {
       headers: {
+        Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
       },
     }
@@ -20,8 +25,16 @@ export const uploadDocument = async (file) => {
 
 // Analyse document
 export const analyseDocument = async (documentId) => {
-  const response = await axiosInstance.post(
-    `/analyse-document/${documentId}/`
+  const token = localStorage.getItem("token");
+
+  const response = await axios.post(
+    `http://127.0.0.1:8000/api/analyse-document/${documentId}/`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
   );
 
   return response.data;
@@ -29,10 +42,17 @@ export const analyseDocument = async (documentId) => {
 
 // Ask assistant
 export const askDocumentAssistant = async (documentId, question) => {
-  const response = await axiosInstance.post(
-    `/document-assistant/${documentId}/`,
+  const token = localStorage.getItem("token");
+
+  const response = await axios.post(
+    `http://127.0.0.1:8000/api/document-assistant/${documentId}/`,
     {
       question: question,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     }
   );
 
