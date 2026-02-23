@@ -58,3 +58,19 @@ export const askDocumentAssistant = async (documentId, question) => {
 
   return response.data;
 };
+
+export const getRiskAnalysis = async (documentId) => {
+  const token = localStorage.getItem("token");
+
+  const response = await axios.post(
+    `http://127.0.0.1:8000/api/generate-analysis/${documentId}/`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  return response.data;
+};

@@ -1,6 +1,9 @@
 from dotenv import load_dotenv
 import os
 from groq import Groq
+import json
+
+
 
 load_dotenv()
 api_key = os.getenv('GROQ_API_KEY')
@@ -121,61 +124,84 @@ def get_groq_response(prompt: str, context: str = ""):
 
     return completion.choices[0].message.content
 
-
-# Example usage function for RAG-based queries
-def get_legal_advice(question: str, context: str):
+def generate_structured_analysis(document_text: str):
     """
-    Get legal advice based on question and knowledge base context.
-    
-    Args:
-        question (str): User's legal question
-        context (str): Retrieved context from vector database/knowledge base
-    
+    Generate structured legal risk analysis JSON for dashboard analytics.
+
     Returns:
-        str: Structured legal response
+        dict: Parsed structured JSON response
     """
-    return get_groq_response(prompt=question, context=context)
 
+    client = get_client()
 
-# Example usage function for general queries (without RAG)
-def get_general_legal_info(question: str):
-    """
-    Get general legal information without specific knowledge base context.
-    
-    Args:
-        question (str): User's legal question
-    
-    Returns:
-        str: Legal response based on model's knowledge
-    """
-    return get_groq_response(prompt=question, context="")
+    prompt = f"""
+You are a Legal Document Risk Analysis Engine.
 
+Analyze the following legal document and return ONLY valid JSON.
 
-# Example usage
-if __name__ == "__main__":
-    # Example 1: With context (RAG-based)
-    sample_context = """
-    Section 378 of IPC: Theft
-    Whoever, intending to take dishonestly any movable property out of the possession 
-    of any person without that person's consent, moves that property in order to such taking, 
-    is said to commit theft.
-    
-    Punishment: Imprisonment up to 3 years, or fine, or both.
-    Cognizable: Yes | Bailable: No | Triable by: Any Magistrate
-    """
-    
-    sample_question = "My laptop was stolen from my office. What legal action can I take?"
-    
-    print("Example 1: RAG-based query")
-    print("=" * 80)
-    response1 = get_legal_advice(sample_question, sample_context)
-    print(response1)
-    print("\n\n")
-    
-    # Example 2: Without context (general query)
-    general_question = "What is the process to file an FIR in India?"
-    
-    print("Example 2: General query")
-    print("=" * 80)
-    response2 = get_general_legal_info(general_question)
-    print(response2)
+STRICT RULES:
+- Do NOT include explanations.
+- Do NOT include markdown.
+- Do NOT wrap in code blocks.
+- Return pure JSON only.
+- If information is not available, leave the field empty.
+- Do NOT fabricate missing information.
+
+Return JSON in EXACT format:
+
+{{
+  "document_type": "",
+  "clauses": [
+    {{
+      "clause_id": "C-001",
+      "clause_type": "",
+      "summary": "",
+      "risk_level": "LOW | MEDIUM | MEDIUM-HIGH | HIGH",
+      "risk_score": 0.0,
+      "justification": ""
+    }}
+  ]
+}}
+
+Guidelines:
+- Identify each major clause or section separately.
+- Assign risk_level based on legal exposure.
+- Assign risk_score between 0.0 and 1.0 for each clause.
+- Classify clause_type (e.g., Payment, Termination, Liability, Governing Law, Confidentiality, Indemnity, Other).
+- Be consistent in scoring logic.
+- Do not assume facts beyond document content.
+
+DOCUMENT:
+{document_text}
+"""
+
+    completion = client.chat.completions.create(
+        model="openai/gpt-oss-120b",
+        messages=[
+            {
+                "role": "system",
+                "content": "You are a strict JSON-producing legal analysis engine."
+            },
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ],
+        temperature=0.1,  # Very low for structured output stability
+        max_tokens=4096,
+        top_p=0.9
+    )
+
+    raw_output = completion.choices[0].message.content.strip()
+
+    # Safety parsing
+    try:
+        structured_json = json.loads(raw_output)
+        return structured_json
+    except json.JSONDecodeError:
+        # Attempt cleanup if model accidentally added formatting
+        cleaned = raw_output.replace("```json", "").replace("```", "").strip()
+        try:
+            return json.loads(cleaned)
+        except Exception:
+            raise ValueError("LLM did not return valid JSON.")

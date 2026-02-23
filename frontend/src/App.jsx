@@ -1,10 +1,9 @@
 import React, { useRef } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
-import FeatureSection from "./components/FeatureSection";
-import ActionSection from "./components/ActionSection";
-import WorkflowSection from "./components/WorkflowSection";
-import BookLawyerSection from "./components/BookLawyerSection";
+import FeatureSection from "./components/DashboardPage/FeatureSection";
+import ActionSection from "./components/DashboardPage/ActionSection";
+import WorkflowSection from "./components/DashboardPage/WorkflowSection";
 import Footer from "./components/Footer";
 
 export function App() {
@@ -33,9 +32,6 @@ export function App() {
 
         <WorkflowSection />
 
-        {/* <div ref={bookLawyerRef}>
-          <BookLawyerSection />
-        </div> */}
       </main>
 
       <Footer />
