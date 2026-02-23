@@ -4,10 +4,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from django.shortcuts import get_object_or_404
-
+from backend.services.risk_analysis_service import analyze_document
 from ..services.groq_client import get_groq_response
 from backend.services.document_pipeline import process_document
-from backend.models import UploadedDocument
+from backend.models import UploadedDocument, DocumentAnalysis
 from backend.services.retrieval_service import retrieve_relevant_chunks
 from backend.services.doc_llm_service import generate_answer
 from .serializers import UploadedDocumentSerializer
@@ -161,5 +161,42 @@ class DocumentAssistantView(APIView):
         except Exception as e:
             return Response(
                 {"error": "Assistant failed.", "details": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+            
+class GenerateAnalysisView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, document_id):
+        try:
+            # Ensure document belongs to logged-in user
+            document = get_object_or_404(
+                UploadedDocument,
+                id=document_id,
+                user=request.user
+            )
+
+            # Check if already analyzed
+            existing = DocumentAnalysis.objects.filter(document=document).first()
+            if existing:
+                return Response(existing.analysis_json, status=status.HTTP_200_OK)
+
+            # Run analysis
+            result = analyze_document(document)
+
+            # Save to DB
+            analysis = DocumentAnalysis.objects.create(
+                document=document,
+                overall_risk=result["overall_risk"],
+                risk_score=result["risk_score"],
+                high_risk_items=result["high_risk_items"],
+                analysis_json=result
+            )
+
+            return Response(result, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response(
+                {"error": "Analysis failed.", "details": str(e)},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )

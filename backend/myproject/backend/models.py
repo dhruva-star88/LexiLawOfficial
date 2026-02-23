@@ -36,3 +36,21 @@ class UploadedDocument(models.Model):
 
     def __str__(self):
         return self.file.name
+    
+class DocumentAnalysis(models.Model):
+    document = models.ForeignKey(
+        "UploadedDocument",
+        on_delete=models.CASCADE,
+        related_name="analysis"
+    )
+
+    overall_risk = models.CharField(max_length=20)
+    risk_score = models.FloatField()
+    high_risk_items = models.IntegerField()
+
+    analysis_json = models.JSONField()
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Analysis for Document {self.document.id}"

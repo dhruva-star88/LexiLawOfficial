@@ -2,12 +2,15 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { App } from "./App";
 import UploadPage from "./Pages/UploadPage";
+import NotFound from "./Pages/NotFound";
 import BotPage from "./Pages/BotPage";
 import AnalyzePage from "./Pages/AnalyzePage";
 import BookLawyerSection from "./Pages/BookLawyerSection";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Profile from "./components/ProfilePage/Profile";
+import Settings from "./components/ProfilePage/Settings";
 
 export function AppRouter() {
   return (
@@ -62,6 +65,26 @@ export function AppRouter() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <Settings />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route path="*" element={<NotFound />} />
 
       </Routes>
     </BrowserRouter>

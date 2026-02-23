@@ -1,18 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import DocumentSummary from "../components/DocumentSummary";
-import RiskAnalysis from "../components/RiskAnalysis";
-import ClauseBreakdown from "../components/ClauseBreakdown";
+import DocumentSummary from "../components/DocumentAnalysisPage/DocumentSummary";
+import RiskAnalysis from "../components/DocumentAnalysisPage/RiskAnalysis";
+import ClauseBreakdown from "../components/DocumentAnalysisPage/ClauseBreakdown";
 import ChatBot from "../components/DocumentAnalysisPage/ChatBot";
+import { getRiskAnalysis } from "../api_page";
 
 export default function AnalyzePage() {
-
   const location = useLocation();
   const documents = location.state?.documents || [];
-
-  // Assuming single document for now
   const documentId = documents.length > 0 ? documents[0].id : null;
+
+  const [analysisData, setAnalysisData] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!documentId) return;
+
+    const fetchAnalysis = async () => {
+      setLoading(true);
+      try {
+        const result = await getRiskAnalysis(documentId);
+        setAnalysisData(result);
+      } catch (error) {
+        console.error("Failed to fetch analysis:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAnalysis();
+  }, [documentId]);
 
   if (!documentId) {
     return (
@@ -35,14 +54,18 @@ export default function AnalyzePage() {
             <DocumentSummary documentId={documentId} />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-white rounded-lg shadow p-6">
-              <RiskAnalysis documentId={documentId} />
+          {loading ? (
+            <div className="text-center py-10">Loading analysis...</div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-white rounded-lg shadow p-6">
+                <RiskAnalysis data={analysisData} />
+              </div>
+              <div className="bg-white rounded-lg shadow p-6">
+                <ClauseBreakdown data={analysisData} />
+              </div>
             </div>
-            <div className="bg-white rounded-lg shadow p-6">
-              <ClauseBreakdown documentId={documentId} />
-            </div>
-          </div>
+          )}
 
           <ChatBot documentId={documentId} />
         </div>
